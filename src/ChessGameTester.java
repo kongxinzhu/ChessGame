@@ -6,10 +6,9 @@ import java.util.ListIterator;
  */
 public class ChessGameTester {
     public static void main(String[] args) {
-//        ChessGameGUI chess = new ChessGameGUI();
+        MoveList moveList = new MoveList("resources/test.txt");
+        System.out.println("moveList.size: " + moveList.size());
+        ChessGameGUI chess = new ChessGameGUI(moveList);
         Board board = new Board();
-        MoveList m1 = new MoveList("resources/test.txt");
-        board.forwardMove(m1, 0);
-        System.out.println(board.boardTrace[5][5].peek().name);
     }
 }
