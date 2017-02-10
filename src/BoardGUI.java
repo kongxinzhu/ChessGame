@@ -1,8 +1,6 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -25,7 +23,6 @@ public class BoardGUI extends JPanel {
         setBorder(new LineBorder(Color.black, 2));
         setVisible(true);
         setSize(600,600);
-        //frame.pack();
 
         // create 64 squares
         for(int row = 0; row < 8; row++) {
@@ -65,7 +62,7 @@ public class BoardGUI extends JPanel {
             }
         }
 
-
+        // add buttons in board panel
         for(int i = 0; i < 8; i++) {
             for(int j = 0; j < 8; j++) {
                 add(buttons[i][j]);
@@ -85,20 +82,17 @@ public class BoardGUI extends JPanel {
                 buttons[i][j].setIcon(iconOfPiece);
             }
         }
-
         setSize(600,600);
     }
 
-    // update the pieces's position
+    // update the icon on chess board in GUI
     public void boardUpdate(MoveList moveList) {
-
         ArrayList<Integer> moves =  moveList.pointMove(moveList.step);
 
         int startCol;
         int startRow;
         int endCol;
         int endRow;
-        Icon iconOfPiece;
 
         ListIterator iterator = moves.listIterator();
         while(iterator.hasNext()) {
@@ -106,6 +100,7 @@ public class BoardGUI extends JPanel {
             startRow = (int) iterator.next();
             endCol = (int) iterator.next();
             endRow = (int) iterator.next();
+
 
             if(realBoard.boardTrace[startRow][startCol] == null) {
                 buttons[startRow][startCol].setIcon(null);
@@ -124,7 +119,6 @@ public class BoardGUI extends JPanel {
                 imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[endRow][endCol].imagePath));
                 buttons[endRow][endCol].setIcon(imageOfPiece);
             }
-
         }
     }
 }

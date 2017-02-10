@@ -61,12 +61,11 @@ public class Board {
                 endCol = (int) iterator.next();
                 endRow = (int) iterator.next();
 
-            /* save the lost piece in lostPiece stack
-            *  if no piece at the destination place
-            *  still push a null in lostPiece stack
-            */
+                /* save the lost piece in lostPiece stack
+                *  if no piece at the destination place
+                *  still push a null in lostPiece stack
+                */
                 moveList.lostPiece.push(boardTrace[endRow][endCol]);
-                System.out.println("stack's size: " + moveList.lostPiece.size());
 
                 // put piece from old place to new place following move list
                 boardTrace[endRow][endCol] = boardTrace[startRow][startCol];

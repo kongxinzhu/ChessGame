@@ -42,7 +42,10 @@ public class MoveList {
             moveList.add(null);
             populateMoveData(moveList);
 
+            // initialize the step
             step = 0;
+
+            // store the pieces in the destination place
             lostPiece = new Stack();
         } catch (IOException e) {
             System.out.println("Error : Can not find the file.");
@@ -64,14 +67,68 @@ public class MoveList {
 
     // parse movement information with a line in move file
     public ArrayList<Integer> parseMoveLine(String line) {
+        int[] columnAndRow;
+
+        // new an array of String for 4 places in case of O-O-O and O-O
+        String[] twoPoints = new String[4];
         ArrayList<Integer> move = new ArrayList();
-        String[] twoPeaple = line.split("\\s++");
-        for(int i = 0; i < twoPeaple.length; i++) {
-            String[] twoPoints = twoPeaple[i].split("-");
-            for(int j = 0; j < twoPoints.length; j++) {
-                int[] columnAndRow = parseColumnRow(twoPoints[j]);
-                for(int p = 0; p < columnAndRow.length; p++) {
-                    move.add(columnAndRow[p]);
+        String[] twoPeople = line.split("\\s++");
+        for(int i = 0; i < twoPeople.length; i++) {
+            String[] twoPointsBuffer = twoPeople[i].split("-");
+
+            // O-O-O and O-O case
+            if(twoPointsBuffer[0].equals("O")) {
+                switch (twoPointsBuffer.length) {
+                    // O-O-O case
+                    case 3:
+                        // check it's white or black side
+                        if (i == 0) {
+                            twoPoints[0] = "E1";
+                            twoPoints[1] = "C1";
+                            twoPoints[2] = "A1";
+                            twoPoints[3] = "D1";
+                        }
+                        if (i == 1) {
+                            twoPoints[0] = "E8";
+                            twoPoints[1] = "C8";
+                            twoPoints[2] = "A8";
+                            twoPoints[3] = "D8";
+                        }
+                        break;
+
+                    // O-O case
+                    case 2:
+
+                        if (i == 0) {
+                            twoPoints[0] = "E1";
+                            twoPoints[1] = "G1";
+                            twoPoints[2] = "H1";
+                            twoPoints[3] = "F1";
+                        }
+                        if (i == 1) {
+                            twoPoints[0] = "E8";
+                            twoPoints[1] = "G8";
+                            twoPoints[2] = "H8";
+                            twoPoints[3] = "F8";
+                        }
+                }
+                for (int j = 0; j < 4; j++) {
+                    columnAndRow = parseColumnRow(twoPoints[j]);
+                    for (int p = 0; p < columnAndRow.length; p++) {
+                        move.add(columnAndRow[p]);
+                    }
+                }
+            } else {
+                // regular case
+                for (int p = 0; p < twoPointsBuffer.length; p++) {
+                    twoPoints[p] = twoPointsBuffer[p];
+                }
+
+                for (int j = 0; j < 2; j++) {
+                    columnAndRow = parseColumnRow(twoPoints[j]);
+                    for (int p = 0; p < columnAndRow.length; p++) {
+                        move.add(columnAndRow[p]);
+                    }
                 }
             }
         }
@@ -92,6 +149,7 @@ public class MoveList {
         return moveList.get(index);
     }
 
+    // get number of moves in moveList
     public int size() {
         return moveList.size();
     }
