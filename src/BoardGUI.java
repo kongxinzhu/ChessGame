@@ -3,6 +3,8 @@ import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 /**
  * Created by caixinzhu on 2/6/17.
@@ -10,6 +12,7 @@ import java.io.IOException;
 public class BoardGUI extends JPanel {
     JButton[][] buttons;
     Board realBoard = new Board();
+    private Icon imageOfPiece;
 
     public BoardGUI() {
         buttons = new JButton[8][8];
@@ -34,12 +37,14 @@ public class BoardGUI extends JPanel {
                     buttons[row][col].setOpaque(true);
                     buttons[row][col].setBorder(null);
                     buttons[row][col].setBackground(Color.white);
+                    buttons[row][col].setBorderPainted(false);
                     col++;
                     buttons[row][col] = new JButton();
                     buttons[row][col].setPreferredSize(new Dimension(55, 55));
                     buttons[row][col].setBackground(Color.gray);
                     buttons[row][col].setOpaque(true);
                     buttons[row][col].setBorder(null);
+                    buttons[row][col].setBorderPainted(false);
                 }
             } else {
                 for (int k = 0; k < 4; col++, k++) {
@@ -48,12 +53,14 @@ public class BoardGUI extends JPanel {
                     buttons[row][col].setBackground(Color.gray);
                     buttons[row][col].setOpaque(true);
                     buttons[row][col].setBorder(null);
+                    buttons[row][col].setBorderPainted(false);
                     col++;
                     buttons[row][col] = new JButton();
                     buttons[row][col].setPreferredSize(new Dimension(55, 55));
                     buttons[row][col].setBackground(Color.white);
                     buttons[row][col].setOpaque(true);
                     buttons[row][col].setBorder(null);
+                    buttons[row][col].setBorderPainted(false);
                 }
             }
         }
@@ -66,13 +73,58 @@ public class BoardGUI extends JPanel {
         }
 
         // initialize the beginning state of game
-//        for(int i = 0; i < 2; i++) {
-//            for(int j = 0; j < 8; j++) {
-//                Icon iconOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[i][j].imagePath));
-//                buttons[i][j].setIcon(iconOfPiece);
-//            }
-//        }
+        for(int i = 0; i < 2; i++) {
+            for(int j = 0; j < 8; j++) {
+                Icon iconOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[i][j].imagePath));
+                buttons[i][j].setIcon(iconOfPiece);
+            }
+        }
+        for(int i = 6; i < 8; i++) {
+            for(int j = 0; j < 8; j++) {
+                Icon iconOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[i][j].imagePath));
+                buttons[i][j].setIcon(iconOfPiece);
+            }
+        }
 
         setSize(600,600);
+    }
+
+    // update the pieces's position
+    public void boardUpdate(MoveList moveList) {
+
+        ArrayList<Integer> moves =  moveList.pointMove(moveList.step);
+
+        int startCol;
+        int startRow;
+        int endCol;
+        int endRow;
+        Icon iconOfPiece;
+
+        ListIterator iterator = moves.listIterator();
+        while(iterator.hasNext()) {
+            startCol = (int) iterator.next();
+            startRow = (int) iterator.next();
+            endCol = (int) iterator.next();
+            endRow = (int) iterator.next();
+
+            if(realBoard.boardTrace[startRow][startCol] == null) {
+                buttons[startRow][startCol].setIcon(null);
+            }
+
+            if(realBoard.boardTrace[startRow][startCol] != null) {
+                imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[startRow][startCol].imagePath));
+                buttons[startRow][startCol].setIcon(imageOfPiece);
+            }
+
+            if(realBoard.boardTrace[endRow][endCol] == null) {
+                buttons[endRow][endCol].setIcon(null);
+            }
+
+            if(realBoard.boardTrace[endRow][endCol] != null) {
+                imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[endRow][endCol].imagePath));
+                buttons[endRow][endCol].setIcon(imageOfPiece);
+            }
+
+        }
     }
 }

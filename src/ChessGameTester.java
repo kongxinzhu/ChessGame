@@ -7,7 +7,6 @@ import java.util.ListIterator;
 public class ChessGameTester {
     public static void main(String[] args) {
         MoveList moveList = new MoveList("resources/test.txt");
-        System.out.println("moveList.size: " + moveList.size());
         ChessGameGUI chess = new ChessGameGUI(moveList);
         Board board = new Board();
     }

@@ -39,9 +39,10 @@ public class MoveList {
 
             moveFilePath = filePath;
             moveList = new ArrayList();
+            moveList.add(null);
             populateMoveData(moveList);
 
-            step = -1;
+            step = 0;
             lostPiece = new Stack();
         } catch (IOException e) {
             System.out.println("Error : Can not find the file.");

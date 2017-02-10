@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 public class ChessGameGUI extends JFrame implements ActionListener {
     BoardGUI board;
     MoveList moveList;
+    JButton previous;
+    JButton next;
 
     public ChessGameGUI(MoveList moveList) {
 
@@ -41,15 +43,16 @@ public class ChessGameGUI extends JFrame implements ActionListener {
 
         // position buttonPanel in the center
         buttonPanel.add(Box.createVerticalGlue());
-        JButton previous = new JButton("previous");
+        previous = new JButton("previous");
 
-        JButton next = new JButton("next");
+        next = new JButton("next");
         buttonPanel.add(previous);
         buttonPanel.add(next);
         buttonPanel.add(Box.createVerticalGlue());
 
         // add listener
         next.addActionListener(this);
+        previous.addActionListener(this);
 
         // buttonPanelCenter.add(buttonPanel);
         contentPane.add(Box.createHorizontalGlue());
@@ -60,12 +63,21 @@ public class ChessGameGUI extends JFrame implements ActionListener {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-//        setSize(600,500);
         setLocationRelativeTo(null);
     }
 
     @Override
     public void actionPerformed (ActionEvent e) {
-        board.realBoard.forwardMove(moveList);
+        Object source = e.getSource();
+        if(source == next && moveList.step < moveList.size() - 2) {
+            moveList.step++;
+            board.realBoard.forwardMove(moveList);
+            board.boardUpdate(moveList);
+        }
+        if(source == previous && moveList.step > 0) {
+            board.realBoard.backMove(moveList);
+            board.boardUpdate(moveList);
+            moveList.step--;
+        }
     }
 }
