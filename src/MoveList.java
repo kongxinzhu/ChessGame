@@ -4,6 +4,8 @@ import com.sun.javafx.perf.PerformanceTracker;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by caixinzhu on 2/7/17.
@@ -21,6 +23,7 @@ public class MoveList {
     List<ArrayList<Integer>> moveList;
     Stack<Piece> lostPiece;
     Map<Character, Integer> columnMap;
+    Map<String, Integer> promotionMap;
     int step;
 
     // constructor
@@ -36,6 +39,12 @@ public class MoveList {
             columnMap.put('F', 5);
             columnMap.put('G', 6);
             columnMap.put('H', 7);
+
+            // create map from promotion string to integer
+            promotionMap.put("Q", -1);
+            promotionMap.put("K", -2);
+            promotionMap.put("B", -3);
+            promotionMap.put("R", -4);
 
             moveFilePath = filePath;
             moveList = new ArrayList();
@@ -130,6 +139,13 @@ public class MoveList {
                         move.add(columnAndRow[p]);
                     }
                 }
+
+                Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(twoPeople[i]);
+                String promotionType = m.group(1);
+                move.add(move.size() - 2);
+                move.add(move.size() - 2);
+                move.add(promotionMap.get(promotionType));
+                move.add(promotionMap.get(promotionType));
             }
         }
         return move;
