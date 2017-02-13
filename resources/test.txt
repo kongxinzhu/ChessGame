@@ -1,2 +1,4 @@
 http://www.chessgames.com/perl/chessgame?gid=1008361
-A7-A1(Q)
+A7-A6
+A6-A1(Q)
+B7-B5
