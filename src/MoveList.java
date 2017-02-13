@@ -31,6 +31,8 @@ public class MoveList {
         try {
             // create standard of character switching to integer
             columnMap = new HashMap();
+            promotionMap = new HashMap();
+
             columnMap.put('A', 0);
             columnMap.put('B', 1);
             columnMap.put('C', 2);
@@ -135,17 +137,19 @@ public class MoveList {
 
                 for (int j = 0; j < 2; j++) {
                     columnAndRow = parseColumnRow(twoPoints[j]);
-                    for (int p = 0; p < columnAndRow.length; p++) {
+                    for (int p = 0; p < 2; p++) {
                         move.add(columnAndRow[p]);
                     }
                 }
 
                 Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(twoPeople[i]);
-                String promotionType = m.group(1);
-                move.add(move.size() - 2);
-                move.add(move.size() - 2);
-                move.add(promotionMap.get(promotionType));
-                move.add(promotionMap.get(promotionType));
+                if (m.find()) {
+                    String promotionType = m.group(1);
+                    move.add(move.get(move.size() - 2));
+                    move.add(move.get(move.size() - 2));
+                    move.add(promotionMap.get(promotionType));
+                    move.add(promotionMap.get(promotionType));
+                }
             }
         }
         return move;

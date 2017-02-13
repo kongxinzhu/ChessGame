@@ -102,23 +102,27 @@ public class BoardGUI extends JPanel {
             endCol = (int) iterator.next();
             endRow = (int) iterator.next();
 
+            if(endCol >= 0) {
+                if (realBoard.boardTrace[startRow][startCol] == null) {
+                    buttons[startRow][startCol].setIcon(null);
+                }
 
-            if(realBoard.boardTrace[startRow][startCol] == null) {
-                buttons[startRow][startCol].setIcon(null);
-            }
+                if (realBoard.boardTrace[startRow][startCol] != null) {
+                    imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[startRow][startCol].imagePath));
+                    buttons[startRow][startCol].setIcon(imageOfPiece);
+                }
 
-            if(realBoard.boardTrace[startRow][startCol] != null) {
+                if (realBoard.boardTrace[endRow][endCol] == null) {
+                    buttons[endRow][endCol].setIcon(null);
+                }
+
+                if (realBoard.boardTrace[endRow][endCol] != null) {
+                    imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[endRow][endCol].imagePath));
+                    buttons[endRow][endCol].setIcon(imageOfPiece);
+                }
+            } else {
                 imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[startRow][startCol].imagePath));
                 buttons[startRow][startCol].setIcon(imageOfPiece);
-            }
-
-            if(realBoard.boardTrace[endRow][endCol] == null) {
-                buttons[endRow][endCol].setIcon(null);
-            }
-
-            if(realBoard.boardTrace[endRow][endCol] != null) {
-                imageOfPiece = new ImageIcon(getClass().getResource(realBoard.boardTrace[endRow][endCol].imagePath));
-                buttons[endRow][endCol].setIcon(imageOfPiece);
             }
         }
     }

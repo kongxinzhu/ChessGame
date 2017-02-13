@@ -75,7 +75,7 @@ public class ChessGameGUI extends JFrame implements ActionListener {
     public void actionPerformed (ActionEvent e) {
         Object source = e.getSource();
         // next
-        if(source == next && moveList.step < moveList.size() - 2) {
+        if(source == next && moveList.step < moveList.size() - 1) {
             moveList.step++;
             board.realBoard.forwardMove(moveList);
             board.boardUpdate(moveList);
