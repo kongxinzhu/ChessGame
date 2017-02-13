@@ -21,99 +21,98 @@ public class Board {
         // initialize the beginning state of game
         // black pieces
         boardTrace = new Piece[8][8];
-        boardTrace[0][0] = new Piece("black_rook","Icon/black_rook.png");
-        boardTrace[0][1] = new Piece("black_knight","Icon/black_knight.png");
-        boardTrace[0][2] = new Piece("black_bishop","Icon/black_bishop.png");
-        boardTrace[0][3] = new Piece("black_queen","Icon/black_queen.png");
-        boardTrace[0][4] = new Piece("black_king","Icon/black_king.png");
-        boardTrace[0][5] = new Piece("black_bishop","Icon/black_bishop.png");
-        boardTrace[0][6] = new Piece("black_knight","Icon/black_knight.png");
-        boardTrace[0][7] = new Piece("black_rook","Icon/black_rook.png");
+        boardTrace[0][0] = new Piece("black_rook", "Icon/black_rook.png");
+        boardTrace[0][1] = new Piece("black_knight", "Icon/black_knight.png");
+        boardTrace[0][2] = new Piece("black_bishop", "Icon/black_bishop.png");
+        boardTrace[0][3] = new Piece("black_queen", "Icon/black_queen.png");
+        boardTrace[0][4] = new Piece("black_king", "Icon/black_king.png");
+        boardTrace[0][5] = new Piece("black_bishop", "Icon/black_bishop.png");
+        boardTrace[0][6] = new Piece("black_knight", "Icon/black_knight.png");
+        boardTrace[0][7] = new Piece("black_rook", "Icon/black_rook.png");
         // pawn
-        for(int col = 0; col < 8; col++) {
-            boardTrace[1][col] = new Piece("black_pawn","Icon/black_pawn.png");
+        for (int col = 0; col < 8; col++) {
+            boardTrace[1][col] = new Piece("black_pawn", "Icon/black_pawn.png");
         }
 
         // empty square
-        for(int row = 2; row < 6; row++) {
-            for(int col = 0; col < 8; col++) {
+        for (int row = 2; row < 6; row++) {
+            for (int col = 0; col < 8; col++) {
                 boardTrace[row][col] = null;
             }
         }
 
         // white pieces
-        boardTrace[7][0] = new Piece("white_rook","Icon/white_rook.png");
-        boardTrace[7][1] = new Piece("white_knight","Icon/white_knight.png");
-        boardTrace[7][2] = new Piece("white_bishop","Icon/white_bishop.png");
-        boardTrace[7][3] = new Piece("white_queen","Icon/white_queen.png");
-        boardTrace[7][4] = new Piece("white_king","Icon/white_king.png");
-        boardTrace[7][5] = new Piece("white_bishop","Icon/white_bishop.png");
-        boardTrace[7][6] = new Piece("white_knight","Icon/white_knight.png");
-        boardTrace[7][7] = new Piece("white_rook","Icon/white_rook.png");
+        boardTrace[7][0] = new Piece("white_rook", "Icon/white_rook.png");
+        boardTrace[7][1] = new Piece("white_knight", "Icon/white_knight.png");
+        boardTrace[7][2] = new Piece("white_bishop", "Icon/white_bishop.png");
+        boardTrace[7][3] = new Piece("white_queen", "Icon/white_queen.png");
+        boardTrace[7][4] = new Piece("white_king", "Icon/white_king.png");
+        boardTrace[7][5] = new Piece("white_bishop", "Icon/white_bishop.png");
+        boardTrace[7][6] = new Piece("white_knight", "Icon/white_knight.png");
+        boardTrace[7][7] = new Piece("white_rook", "Icon/white_rook.png");
         // pawn
-        for(int col = 0; col < 8; col++) {
-            boardTrace[6][col] = new Piece("white_pawn","Icon/white_pawn.png");
+        for (int col = 0; col < 8; col++) {
+            boardTrace[6][col] = new Piece("white_pawn", "Icon/white_pawn.png");
         }
     }
 
     // pop piece from stack at old place and push it to stack at new place
     public void forwardMove(MoveList moveList) {
-        if(moveList.step < moveList.size() - 1) {
 
-            ArrayList<Integer> moves = moveList.pointMove(moveList.step);
-            int startCol;
-            int startRow;
-            int endCol;
-            int endRow;
+        ArrayList<Integer> moves = moveList.pointMove(moveList.step);
+        int startCol;
+        int startRow;
+        int endCol;
+        int endRow;
 
-            ListIterator iterator = moves.listIterator();
-            while (iterator.hasNext()) {
-                startCol = (int) iterator.next();
-                startRow = (int) iterator.next();
-                endCol = (int) iterator.next();
-                endRow = (int) iterator.next();
+        ListIterator iterator = moves.listIterator();
+        while (iterator.hasNext()) {
+            startCol = (int) iterator.next();
+            startRow = (int) iterator.next();
+            endCol = (int) iterator.next();
+            endRow = (int) iterator.next();
 
-                if(endRow >= 0) {
+            if (endRow >= 0) {
                          /* save the lost piece in lostPiece stack
                     *  if no piece at the destination place
                     *  still push a null in lostPiece stack
                     */
-                    moveList.lostPiece.push(boardTrace[endRow][endCol]);
+                moveList.lostPiece.push(boardTrace[endRow][endCol]);
 
-                    // put piece from old place to new place following move list
-                    boardTrace[endRow][endCol] = boardTrace[startRow][startCol];
-                    boardTrace[startRow][startCol] = null;
-                } else if(endRow == queenPromotion) {
-                    if(startRow == 0) {
-                        boardTrace[startRow][startCol] = new Piece("white_queen", "Icon/white_queen.png");
-                    } else {
-                        boardTrace[startRow][startCol] = new Piece("black_queen","Icon/black_queen.png");
-                    }
-                } else if(endRow == knightPromotion) {
-                    if(startRow == 0) {
-                        boardTrace[startRow][startCol] = new Piece("white_knight","Icon/white_knight.png");
-                    } else {
-                        boardTrace[startRow][startCol] = new Piece("black_knight","Icon/black_knight.png");
-                    }
-                } else if(endRow == bishopPromotion) {
-                    if(startRow == 0) {
-                        boardTrace[startRow][startCol] = new Piece("white_bishop","Icon/white_bishop.png");
-                    } else {
-                        boardTrace[startRow][startCol] = new Piece("black_bishop","Icon/black_bishop.png");
-                    }
-                } else if(endRow == rookPromotion) {
-                    if(startRow == 0) {
-                        boardTrace[startRow][startCol] = new Piece("white_rook","Icon/white_rook.png");
-                    } else {
-                        boardTrace[startRow][startCol] = new Piece("black_rook","Icon/black_rook.png");
-                    }
+                // put piece from old place to new place following move list
+                boardTrace[endRow][endCol] = boardTrace[startRow][startCol];
+                boardTrace[startRow][startCol] = null;
+            } else if (endRow == queenPromotion) {
+                if (startRow == 0) {
+                    boardTrace[startRow][startCol] = new Piece("white_queen", "Icon/white_queen.png");
+                } else {
+                    boardTrace[startRow][startCol] = new Piece("black_queen", "Icon/black_queen.png");
+                }
+            } else if (endRow == knightPromotion) {
+                if (startRow == 0) {
+                    boardTrace[startRow][startCol] = new Piece("white_knight", "Icon/white_knight.png");
+                } else {
+                    boardTrace[startRow][startCol] = new Piece("black_knight", "Icon/black_knight.png");
+                }
+            } else if (endRow == bishopPromotion) {
+                if (startRow == 0) {
+                    boardTrace[startRow][startCol] = new Piece("white_bishop", "Icon/white_bishop.png");
+                } else {
+                    boardTrace[startRow][startCol] = new Piece("black_bishop", "Icon/black_bishop.png");
+                }
+            } else if (endRow == rookPromotion) {
+                if (startRow == 0) {
+                    boardTrace[startRow][startCol] = new Piece("white_rook", "Icon/white_rook.png");
+                } else {
+                    boardTrace[startRow][startCol] = new Piece("black_rook", "Icon/black_rook.png");
                 }
             }
         }
+
     }
 
     public void backMove(MoveList moveList) {
-        if(moveList.step > 0) {
+        if (moveList.step > 0) {
             ArrayList<Integer> moves = moveList.pointMove(moveList.step);
 
             int startCol;
@@ -128,15 +127,15 @@ public class Board {
                 endRow = (int) iterator.previous();
                 endCol = (int) iterator.previous();
 
-                if(startCol >= 0) {
+                if (startCol >= 0) {
                     // put piece from old place to new place following move list
                     boardTrace[endRow][endCol] = boardTrace[startRow][startCol];
                     Piece lost = moveList.lostPiece.pop();
                     boardTrace[startRow][startCol] = lost;
-                } else if(endRow == 0) {
-                    boardTrace[endRow][endCol] = new Piece("white_pawn","Icon/white_pawn.png");
+                } else if (endRow == 0) {
+                    boardTrace[endRow][endCol] = new Piece("white_pawn", "Icon/white_pawn.png");
                 } else {
-                    boardTrace[endRow][endCol] = new Piece("black_pawn","Icon/black_pawn.png");
+                    boardTrace[endRow][endCol] = new Piece("black_pawn", "Icon/black_pawn.png");
                 }
             }
         }
