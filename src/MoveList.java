@@ -98,7 +98,7 @@ public class MoveList {
 
                     // O-O case
                     case 2:
-
+                        // check it's white or black side
                         if (i == 0) {
                             twoPoints[0] = "E1";
                             twoPoints[1] = "G1";

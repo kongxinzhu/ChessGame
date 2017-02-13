@@ -29,6 +29,13 @@ public class Board {
             boardTrace[1][col] = new Piece("black_pawn","Icon/black_pawn.png");
         }
 
+        // empty square
+        for(int row = 2; row < 6; row++) {
+            for(int col = 0; col < 8; col++) {
+                boardTrace[row][col] = null;
+            }
+        }
+
         // white pieces
         boardTrace[7][0] = new Piece("white_rook","Icon/white_rook.png");
         boardTrace[7][1] = new Piece("white_knight","Icon/white_knight.png");

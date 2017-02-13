@@ -12,6 +12,8 @@ public class ChessGameGUI extends JFrame implements ActionListener {
     MoveList moveList;
     JButton previous;
     JButton next;
+    JButton refresh;
+    JPanel boardPanel;
 
     public ChessGameGUI(MoveList moveList) {
 
@@ -25,7 +27,7 @@ public class ChessGameGUI extends JFrame implements ActionListener {
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 
         // boardPanel contains board
-        JPanel boardPanel = new JPanel();
+        boardPanel = new JPanel();
         boardPanel.setBorder(new EmptyBorder(20,20,20,10));
         boardPanel.setLayout(new BoxLayout(boardPanel, BoxLayout.Y_AXIS));
 
@@ -44,15 +46,18 @@ public class ChessGameGUI extends JFrame implements ActionListener {
         // position buttonPanel in the center
         buttonPanel.add(Box.createVerticalGlue());
         previous = new JButton("previous");
-
         next = new JButton("next");
+        refresh = new JButton("refresh");
+
         buttonPanel.add(previous);
         buttonPanel.add(next);
+        buttonPanel.add(refresh);
         buttonPanel.add(Box.createVerticalGlue());
 
         // add listener
         next.addActionListener(this);
         previous.addActionListener(this);
+        refresh.addActionListener(this);
 
         // buttonPanelCenter.add(buttonPanel);
         contentPane.add(Box.createHorizontalGlue());
@@ -69,15 +74,28 @@ public class ChessGameGUI extends JFrame implements ActionListener {
     @Override
     public void actionPerformed (ActionEvent e) {
         Object source = e.getSource();
+        // next
         if(source == next && moveList.step < moveList.size() - 2) {
             moveList.step++;
             board.realBoard.forwardMove(moveList);
             board.boardUpdate(moveList);
         }
+
+        // previousall
         if(source == previous && moveList.step > 0) {
             board.realBoard.backMove(moveList);
             board.boardUpdate(moveList);
             moveList.step--;
+        }
+
+        // refresh the board
+        if(source == refresh) {
+            boardPanel.removeAll();
+            boardPanel.revalidate();
+            boardPanel.repaint();
+            board = new BoardGUI();
+            boardPanel.add(board);
+            moveList.step = 0;
         }
     }
 }

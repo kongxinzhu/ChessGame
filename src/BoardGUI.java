@@ -9,10 +9,11 @@ import java.util.ListIterator;
  */
 public class BoardGUI extends JPanel {
     JButton[][] buttons;
-    Board realBoard = new Board();
+    Board realBoard;
     private Icon imageOfPiece;
 
     public BoardGUI() {
+        realBoard = new Board();
         buttons = new JButton[8][8];
 
         GridLayout gridLayout = new GridLayout(8, 8);
